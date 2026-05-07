@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Upload interno</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="panel" aria-labelledby="title">
+        <div class="heading">
+          <p class="eyebrow">Servidor interno</p>
+          <h1 id="title">Upload EXT</h1>
+          <p id="target" class="target">Cargando destino...</p>
+        </div>
+
+        <form id="uploadForm" class="form">
+          <div class="auth-grid">
+            <label>
+              Usuario
+              <input id="user" name="user" autocomplete="username" required />
+            </label>
+            <label>
+              Contraseña
+              <input id="pass" name="pass" type="password" autocomplete="current-password" required />
+            </label>
+          </div>
+
+          <div class="actions">
+            <label class="upload-button">
+              <input id="files" type="file" multiple />
+              Elegir archivos
+            </label>
+            <label class="upload-button secondary">
+              <input id="folder" type="file" webkitdirectory directory multiple />
+              Elegir carpeta
+            </label>
+          </div>
+
+          <div id="dropZone" class="drop-zone">
+            <strong>Soltá archivos o carpetas acá</strong>
+            <span>También podés usar los botones de arriba.</span>
+          </div>
+
+          <div class="summary">
+            <span id="fileCount">Sin archivos seleccionados</span>
+            <button id="submit" type="submit" disabled>Subir</button>
+          </div>
+        </form>
+
+        <div class="progress-wrap" aria-live="polite">
+          <progress id="progress" value="0" max="100"></progress>
+          <span id="status">Esperando selección.</span>
+        </div>
+
+        <ol id="fileList" class="file-list"></ol>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>

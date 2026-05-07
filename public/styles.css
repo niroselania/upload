@@ -1,0 +1,230 @@
+:root {
+  color-scheme: light;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #f4f7f6;
+  color: #17201d;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+.shell {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 32px 16px;
+  background:
+    linear-gradient(135deg, rgba(26, 98, 93, 0.14), transparent 38%),
+    linear-gradient(315deg, rgba(211, 135, 62, 0.16), transparent 35%),
+    #f4f7f6;
+}
+
+.panel {
+  width: min(760px, 100%);
+  padding: 28px;
+  border: 1px solid #d7e0dd;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 22px 55px rgba(31, 45, 42, 0.12);
+}
+
+.heading {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.eyebrow {
+  margin: 0;
+  color: #1d6f69;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(32px, 6vw, 54px);
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+.target {
+  margin: 0;
+  color: #5c6865;
+  overflow-wrap: anywhere;
+}
+
+.form {
+  display: grid;
+  gap: 18px;
+}
+
+.auth-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+label {
+  display: grid;
+  gap: 7px;
+  color: #34433f;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+input {
+  width: 100%;
+  min-height: 44px;
+  border: 1px solid #cbd8d4;
+  border-radius: 6px;
+  padding: 10px 12px;
+  color: #17201d;
+  background: #ffffff;
+}
+
+input:focus {
+  border-color: #1d6f69;
+  outline: 3px solid rgba(29, 111, 105, 0.16);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.upload-button,
+button {
+  min-height: 46px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 6px;
+  padding: 0 18px;
+  background: #1d6f69;
+  color: #ffffff;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.upload-button.secondary {
+  background: #2f4858;
+}
+
+.upload-button input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  background: #a6b6b1;
+}
+
+.drop-zone {
+  min-height: 150px;
+  display: grid;
+  place-items: center;
+  gap: 6px;
+  border: 2px dashed #b8c9c4;
+  border-radius: 8px;
+  padding: 24px;
+  text-align: center;
+  color: #52635f;
+  background: #f8fbfa;
+}
+
+.drop-zone.dragging {
+  border-color: #1d6f69;
+  background: #edf7f5;
+}
+
+.drop-zone strong {
+  color: #1f2d2a;
+  font-size: 18px;
+}
+
+.summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 46px;
+}
+
+.progress-wrap {
+  display: grid;
+  gap: 8px;
+  margin-top: 18px;
+  color: #52635f;
+  font-size: 14px;
+}
+
+progress {
+  width: 100%;
+  height: 12px;
+  accent-color: #1d6f69;
+}
+
+.file-list {
+  display: grid;
+  gap: 8px;
+  max-height: 260px;
+  overflow: auto;
+  margin: 18px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.file-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  border: 1px solid #dce5e2;
+  border-radius: 6px;
+  padding: 10px 12px;
+  background: #ffffff;
+  color: #30413d;
+}
+
+.file-list span:first-child {
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 640px) {
+  .panel {
+    padding: 20px;
+  }
+
+  .auth-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .actions,
+  .summary {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .upload-button,
+  button {
+    width: 100%;
+  }
+}
