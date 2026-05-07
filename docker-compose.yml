@@ -14,8 +14,8 @@ services:
       PUBLIC_URL: "http://patagonia.serveftp.com/modules/icewhale_files/#/files/HDD-500/UPLOAD%20EXT"
       TARGET_MODE: "local"
       UPLOAD_DIR: "/uploads"
-      UPLOAD_USER: "admin"
-      UPLOAD_PASS: "cambiar-esta-clave"
+      UPLOAD_USER: "niros"
+      UPLOAD_PASS: "ardy30fe"
       TARGET_URL: "http://patagonia.serveftp.com/modules/icewhale_files/#/files/HDD-500/UPLOAD%20EXT"
       MAX_FILE_SIZE_MB: "5120"
     restart: unless-stopped
