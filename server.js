@@ -12,6 +12,9 @@ const TARGET_URL =
   "http://patagonia.serveftp.com/modules/icewhale_files/#/files/HDD-500/UPLOAD%20EXT";
 const TARGET_MODE = (process.env.TARGET_MODE || "webdav").toLowerCase();
 const MAX_FILE_SIZE_MB = Number(process.env.MAX_FILE_SIZE_MB || 5120);
+const UPLOAD_DIR = process.env.UPLOAD_DIR || "/uploads";
+const UPLOAD_USER = process.env.UPLOAD_USER || "";
+const UPLOAD_PASS = process.env.UPLOAD_PASS || "";
 const PUBLIC_BASE_PATH = normalizeBasePath(process.env.PUBLIC_BASE_PATH || "/");
 const PUBLIC_URL =
   process.env.PUBLIC_URL ||
@@ -35,6 +38,7 @@ router.get("/api/config", (_req, res) => {
     publicUrl: PUBLIC_URL,
     publicBasePath: PUBLIC_BASE_PATH,
     targetMode: TARGET_MODE,
+    uploadDir: TARGET_MODE === "local" ? UPLOAD_DIR : undefined,
     maxFileSizeMb: MAX_FILE_SIZE_MB,
     hashUrlWarning: TARGET_URL.includes("#")
   });
@@ -50,6 +54,11 @@ router.post("/api/upload", upload.array("files"), async (req, res) => {
     return res.status(400).json({ error: "Faltan usuario o contraseña." });
   }
 
+  if (UPLOAD_USER && UPLOAD_PASS && (user !== UPLOAD_USER || pass !== UPLOAD_PASS)) {
+    await cleanup(req.files);
+    return res.status(401).json({ error: "Usuario o contraseña incorrectos." });
+  }
+
   if (!req.files?.length) {
     return res.status(400).json({ error: "No se recibieron archivos." });
   }
@@ -60,10 +69,7 @@ router.post("/api/upload", upload.array("files"), async (req, res) => {
   try {
     for (const [index, file] of req.files.entries()) {
       const relativePath = sanitizeRelativePath(paths[index] || file.originalname);
-      const result =
-        TARGET_MODE === "post"
-          ? await uploadWithPost(file, relativePath, authorization)
-          : await uploadWithWebDav(file, relativePath, authorization);
+      const result = await uploadFile(file, relativePath, authorization);
 
       results.push(result);
     }
@@ -98,6 +104,45 @@ function normalizeBasePath(value) {
     .trim()
     .replace(/^\/+|\/+$/g, "")}`;
   return normalized === "/" ? "/" : normalized;
+}
+
+async function uploadFile(file, relativePath, authorization) {
+  if (TARGET_MODE === "local") {
+    return saveLocal(file, relativePath);
+  }
+
+  if (TARGET_MODE === "post") {
+    return uploadWithPost(file, relativePath, authorization);
+  }
+
+  return uploadWithWebDav(file, relativePath, authorization);
+}
+
+async function saveLocal(file, relativePath) {
+  const safePath = sanitizeRelativePath(relativePath);
+  const destination = path.resolve(UPLOAD_DIR, safePath);
+  const root = path.resolve(UPLOAD_DIR);
+
+  if (destination !== root && !destination.startsWith(`${root}${path.sep}`)) {
+    return {
+      id: crypto.randomUUID(),
+      path: relativePath,
+      ok: false,
+      status: 400,
+      message: "Ruta invalida."
+    };
+  }
+
+  await fs.mkdir(path.dirname(destination), { recursive: true });
+  await fs.copyFile(file.path, destination);
+
+  return {
+    id: crypto.randomUUID(),
+    path: safePath,
+    ok: true,
+    status: 201,
+    message: "Guardado"
+  };
 }
 
 function normalizePaths(value) {
