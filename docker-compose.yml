@@ -7,7 +7,7 @@ services:
     ports:
       - "3020:3000"
     volumes:
-      - /ZimaOS-HD/Downloads:/uploads
+      - /DATA/Downloads:/uploads
     environment:
       PORT: "3000"
       PUBLIC_BASE_PATH: "/modules/icewhale_files"
