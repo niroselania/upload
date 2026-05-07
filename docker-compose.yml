@@ -1,8 +1,6 @@
 services:
   internal-uploader:
-    build:
-      context: /opt/upload
-      dockerfile: Dockerfile
+    build: .
     container_name: internal-uploader
     ports:
       - "3020:3000"
