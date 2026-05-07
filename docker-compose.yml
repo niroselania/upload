@@ -6,12 +6,16 @@ services:
     container_name: internal-uploader
     ports:
       - "3020:3000"
+    volumes:
+      - /ZimaOS-HD/Downloads:/uploads
     environment:
       PORT: "3000"
       PUBLIC_BASE_PATH: "/modules/icewhale_files"
       PUBLIC_URL: "http://patagonia.serveftp.com/modules/icewhale_files/#/files/HDD-500/UPLOAD%20EXT"
-      TARGET_MODE: "webdav"
+      TARGET_MODE: "local"
+      UPLOAD_DIR: "/uploads"
+      UPLOAD_USER: "admin"
+      UPLOAD_PASS: "cambiar-esta-clave"
       TARGET_URL: "http://patagonia.serveftp.com/modules/icewhale_files/#/files/HDD-500/UPLOAD%20EXT"
       MAX_FILE_SIZE_MB: "5120"
     restart: unless-stopped
-

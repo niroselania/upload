@@ -15,6 +15,11 @@ fetch("api/config")
   .then((response) => response.json())
   .then((config) => {
     const warning = config.hashUrlWarning ? " - revisar endpoint real, el # no se envía al servidor" : "";
+    if (config.targetMode === "local") {
+      target.textContent = `Abre en ${config.publicUrl}. Guarda en carpeta local montada: ${config.uploadDir}`;
+      return;
+    }
+
     target.textContent = `Abre en ${config.publicUrl}. Sube por ${config.targetMode.toUpperCase()} -> ${config.targetUrl}${warning}`;
   })
   .catch(() => {

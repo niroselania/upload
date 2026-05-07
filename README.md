@@ -7,7 +7,9 @@ Sitio simple para subir archivos o carpetas completas y reenviarlas a un servido
 Variables de entorno:
 
 - `TARGET_URL`: endpoint real de subida del servidor.
-- `TARGET_MODE`: `webdav` o `post`. Por defecto usa `webdav`.
+- `TARGET_MODE`: `local`, `webdav` o `post`. Por defecto usa `webdav`.
+- `UPLOAD_DIR`: carpeta interna donde guardar archivos si `TARGET_MODE=local`.
+- `UPLOAD_USER` y `UPLOAD_PASS`: credenciales del formulario de subida.
 - `PUBLIC_BASE_PATH`: ruta publica donde abre la app. Para tu caso: `/modules/icewhale_files`.
 - `PUBLIC_URL`: URL visible para mostrar en pantalla.
 - `MAX_FILE_SIZE_MB`: tamano maximo por archivo. Por defecto `5120`.
@@ -21,6 +23,8 @@ http://patagonia.serveftp.com/modules/icewhale_files/#/files/HDD-500/UPLOAD%20EX
 
 parece ser una ruta de la interfaz web. La parte despues de `#` no se envia al servidor, por eso conviene reemplazar `TARGET_URL` por el endpoint real de WebDAV/API si IceWhale/ZimaOS lo expone.
 
+Si usas `TARGET_MODE=local`, no hace falta conocer el endpoint de ZimaOS: el contenedor guarda directamente en una carpeta montada del host.
+
 ## Docker / Portainer
 
 Build:
@@ -33,8 +37,9 @@ Run:
 
 ```bash
 docker run -p 3020:3000 \
-  -e TARGET_MODE=webdav \
-  -e TARGET_URL="http://patagonia.serveftp.com/endpoint-real" \
+  -v /opt/upload-data:/uploads \
+  -e TARGET_MODE=local \
+  -e UPLOAD_DIR=/uploads \
   internal-uploader
 ```
 
