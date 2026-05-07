@@ -1,6 +1,8 @@
 services:
   internal-uploader:
-    build: .
+    build:
+      context: https://github.com/niroselania/upload.git#main
+      dockerfile: Dockerfile
     container_name: internal-uploader
     ports:
       - "3020:3000"
@@ -12,3 +14,4 @@ services:
       TARGET_URL: "http://patagonia.serveftp.com/modules/icewhale_files/#/files/HDD-500/UPLOAD%20EXT"
       MAX_FILE_SIZE_MB: "5120"
     restart: unless-stopped
+
