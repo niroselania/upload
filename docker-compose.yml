@@ -7,16 +7,17 @@ services:
     ports:
       - "3021:3000"
     volumes:
-      - /var/lib/casaos_data/Downloads:/uploads
+      - "/media/HDD-500/UPLOAD EXT:/uploads"
     environment:
       PORT: "3000"
       PUBLIC_BASE_PATH: "/"
-      PUBLIC_URL: "http://192.168.1.102:3021/"
+      PUBLIC_URL: "http://192.168.1.98:3021/"
       TARGET_MODE: "local"
       UPLOAD_DIR: "/uploads"
       UPLOAD_USER: "niros"
       UPLOAD_PASS: "ardy30fe"
       MAX_FILE_SIZE_MB: "5120"
     restart: unless-stopped
+
 
 
