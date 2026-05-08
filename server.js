@@ -97,6 +97,8 @@ if (PUBLIC_BASE_PATH !== "/") {
 app.listen(PORT, () => {
   console.log(`Uploader listening on http://0.0.0.0:${PORT}`);
   console.log(`Public base path: ${PUBLIC_BASE_PATH}`);
+  console.log(`Target mode: ${TARGET_MODE}`);
+  console.log(`Upload dir: ${UPLOAD_DIR}`);
 });
 
 function normalizeBasePath(value) {
@@ -135,10 +137,14 @@ async function saveLocal(file, relativePath) {
 
   await fs.mkdir(path.dirname(destination), { recursive: true });
   await fs.copyFile(file.path, destination);
+  const stat = await fs.stat(destination);
+  console.log(`Saved upload: ${safePath} -> ${destination} (${stat.size} bytes)`);
 
   return {
     id: crypto.randomUUID(),
     path: safePath,
+    savedTo: destination,
+    size: stat.size,
     ok: true,
     status: 201,
     message: "Guardado"

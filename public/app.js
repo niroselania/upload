@@ -124,7 +124,9 @@ function renderResults(results) {
     const state = document.createElement("span");
 
     name.textContent = result.path;
-    state.textContent = result.ok ? "OK" : `Error ${result.status || ""}`;
+    state.textContent = result.ok
+      ? `OK${result.savedTo ? ` -> ${result.savedTo}` : ""}`
+      : `Error ${result.status || ""}`;
     item.append(name, state);
     fileList.append(item);
   });
