@@ -12,8 +12,8 @@ services:
       PUBLIC_URL: "http://192.168.1.98:3021/"
       TARGET_MODE: "local"
       UPLOAD_DIR: "/UPLOAD"
-      UPLOAD_USER: "${UPLOAD_USER}"
-      UPLOAD_PASS: "${UPLOAD_PASS}"
+      UPLOAD_USER: "niros"
+      UPLOAD_PASS: "ardy30fe"
       MAX_FILE_SIZE_MB: "5120"
     restart: unless-stopped
 
