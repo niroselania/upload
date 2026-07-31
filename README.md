@@ -18,7 +18,7 @@ Variables de entorno:
 El link original:
 
 ```text
-http://patagonia.serveftp.com/modules/icewhale_files/#/files/HDD-500/UPLOAD%20EXT
+http://patagonia.serveftp.com/modules/icewhale_files/#/files/SERVER ZIMA 250/UPLOAD
 ```
 
 parece ser una ruta de la interfaz web. La parte despues de `#` no se envia al servidor, por eso conviene reemplazar `TARGET_URL` por el endpoint real de WebDAV/API si IceWhale/ZimaOS lo expone.
@@ -39,7 +39,7 @@ Run:
 docker run -p 3020:3000 \
   -v /opt/upload-data:/uploads \
   -e TARGET_MODE=local \
-  -e UPLOAD_DIR=/uploads \
+  -e UPLOAD_DIR=/UPLOAD \
   internal-uploader
 ```
 
@@ -52,7 +52,7 @@ Tambien podes usar directamente el archivo `docker-compose.yml` como Stack. Ajus
 El contenedor ya queda preparado para abrir en:
 
 ```text
-http://patagonia.serveftp.com/modules/icewhale_files/#/files/HDD-500/UPLOAD%20EXT
+http://patagonia.serveftp.com/modules/icewhale_files/#/files/SERVER ZIMA 250/UPLOAD
 ```
 
 Para eso tu reverse proxy debe enviar la ruta `/modules/icewhale_files` hacia el puerto `3020` del host, o directo al puerto `3000` del contenedor si usa la red interna de Docker.
