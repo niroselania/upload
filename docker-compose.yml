@@ -7,13 +7,13 @@ services:
     ports:
       - "3021:3000"
     volumes:
-      - "/media/HDD-500/UPLOAD EXT:/uploads"
+      - "/media/devmon/SERVER ZIMA 250/UPLOAD"
     environment:
       PORT: "3000"
       PUBLIC_BASE_PATH: "/"
       PUBLIC_URL: "http://192.168.1.98:3021/"
       TARGET_MODE: "local"
-      UPLOAD_DIR: "/uploads"
+      UPLOAD_DIR: "/UPLOAD"
       UPLOAD_USER: "niros"
       UPLOAD_PASS: "ardy30fe"
       MAX_FILE_SIZE_MB: "5120"
