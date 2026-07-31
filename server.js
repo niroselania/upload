@@ -9,7 +9,7 @@ import crypto from "node:crypto";
 const PORT = Number(process.env.PORT || 3000);
 const TARGET_URL =
   process.env.TARGET_URL ||
-  "http://patagonia.serveftp.com/modules/icewhale_files/#/files/HDD-500/UPLOAD%20EXT";
+  "http://patagonia.serveftp.com/modules/icewhale_files/#/files/SERVER%ZIMA%250/UPLOAD";
 const TARGET_MODE = (process.env.TARGET_MODE || "webdav").toLowerCase();
 const MAX_FILE_SIZE_MB = Number(process.env.MAX_FILE_SIZE_MB || 5120);
 const UPLOAD_DIR = process.env.UPLOAD_DIR || "/uploads";
@@ -18,7 +18,7 @@ const UPLOAD_PASS = process.env.UPLOAD_PASS || "";
 const PUBLIC_BASE_PATH = normalizeBasePath(process.env.PUBLIC_BASE_PATH || "/");
 const PUBLIC_URL =
   process.env.PUBLIC_URL ||
-  "http://patagonia.serveftp.com/modules/icewhale_files/#/files/HDD-500/UPLOAD%20EXT";
+  "http://patagonia.serveftp.com/modules/icewhale_files/#/files/SERVER%ZIMA%250/UPLOAD";
 
 const app = express();
 const router = express.Router();
