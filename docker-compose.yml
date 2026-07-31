@@ -4,8 +4,6 @@ services:
     container_name: upload-local
     ports:
       - "3021:3000"
-    env_file:
-      - .env
     volumes:
       - "/media/devmon/SERVER ZIMA 250/UPLOAD:/UPLOAD"
     environment:
@@ -14,6 +12,8 @@ services:
       PUBLIC_URL: "http://192.168.1.98:3021/"
       TARGET_MODE: "local"
       UPLOAD_DIR: "/UPLOAD"
+      UPLOAD_USER: "${UPLOAD_USER}"
+      UPLOAD_PASS: "${UPLOAD_PASS}"
       MAX_FILE_SIZE_MB: "5120"
     restart: unless-stopped
 
