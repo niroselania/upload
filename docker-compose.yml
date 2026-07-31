@@ -1,21 +1,19 @@
 services:
   upload-local:
-    build:
-      context: https://github.com/niroselania/upload.git#main
-      dockerfile: Dockerfile
+    build: .
     container_name: upload-local
     ports:
       - "3021:3000"
+    env_file:
+      - .env
     volumes:
-      - "/media/devmon/SERVER ZIMA 250/UPLOAD"
+      - "/media/devmon/SERVER ZIMA 250/UPLOAD:/UPLOAD"
     environment:
       PORT: "3000"
       PUBLIC_BASE_PATH: "/"
       PUBLIC_URL: "http://192.168.1.98:3021/"
       TARGET_MODE: "local"
       UPLOAD_DIR: "/UPLOAD"
-      UPLOAD_USER: "niros"
-      UPLOAD_PASS: "ardy30fe"
       MAX_FILE_SIZE_MB: "5120"
     restart: unless-stopped
 

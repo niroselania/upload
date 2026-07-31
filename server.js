@@ -9,7 +9,7 @@ import crypto from "node:crypto";
 const PORT = Number(process.env.PORT || 3000);
 const TARGET_URL =
   process.env.TARGET_URL ||
-  "http://patagonia.serveftp.com/modules/icewhale_files/#/files/SERVER%ZIMA%250/UPLOAD";
+  "http://patagonia.serveftp.com/modules/icewhale_files/#/files/HDD-500/UPLOAD%20EXT";
 const TARGET_MODE = (process.env.TARGET_MODE || "webdav").toLowerCase();
 const MAX_FILE_SIZE_MB = Number(process.env.MAX_FILE_SIZE_MB || 5120);
 const UPLOAD_DIR = process.env.UPLOAD_DIR || "/uploads";
@@ -18,7 +18,7 @@ const UPLOAD_PASS = process.env.UPLOAD_PASS || "";
 const PUBLIC_BASE_PATH = normalizeBasePath(process.env.PUBLIC_BASE_PATH || "/");
 const PUBLIC_URL =
   process.env.PUBLIC_URL ||
-  "http://patagonia.serveftp.com/modules/icewhale_files/#/files/SERVER%ZIMA%250/UPLOAD";
+  "http://patagonia.serveftp.com/modules/icewhale_files/#/files/HDD-500/UPLOAD%20EXT";
 
 const app = express();
 const router = express.Router();
@@ -54,7 +54,12 @@ router.post("/api/upload", upload.array("files"), async (req, res) => {
     return res.status(400).json({ error: "Faltan usuario o contraseña." });
   }
 
-  if (UPLOAD_USER && UPLOAD_PASS && (user !== UPLOAD_USER || pass !== UPLOAD_PASS)) {
+  if (TARGET_MODE === "local") {
+    if (user !== UPLOAD_USER || pass !== UPLOAD_PASS) {
+      await cleanup(req.files);
+      return res.status(401).json({ error: "Usuario o contraseña incorrectos." });
+    }
+  } else if (UPLOAD_USER && UPLOAD_PASS && (user !== UPLOAD_USER || pass !== UPLOAD_PASS)) {
     await cleanup(req.files);
     return res.status(401).json({ error: "Usuario o contraseña incorrectos." });
   }
@@ -95,10 +100,18 @@ if (PUBLIC_BASE_PATH !== "/") {
 }
 
 app.listen(PORT, () => {
+  if (TARGET_MODE === "local" && (!UPLOAD_USER || !UPLOAD_PASS)) {
+    console.error("Error: UPLOAD_USER y UPLOAD_PASS son obligatorios en modo local.");
+    process.exit(1);
+  }
+
   console.log(`Uploader listening on http://0.0.0.0:${PORT}`);
   console.log(`Public base path: ${PUBLIC_BASE_PATH}`);
   console.log(`Target mode: ${TARGET_MODE}`);
   console.log(`Upload dir: ${UPLOAD_DIR}`);
+  if (TARGET_MODE === "local") {
+    console.log(`Auth: habilitada (usuario ${UPLOAD_USER})`);
+  }
 });
 
 function normalizeBasePath(value) {
